@@ -1,0 +1,140 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Calculator</title>
+</head>
+<body>
+   <div class="flex justify-center items-center bg-purple-500 min-h-screen">
+        <div class="bg-purple-950  py-10 px-5 rounded-2xl ">
+            <div class=" mb-8 mt-4 flex justify-center items-center" >
+                <input 
+                type="text"
+                id="display"
+                name="display" 
+                class=" bg-purple-300 rounded-lg py-6 px-10 outline-none text-2xl font-bold" 
+                >
+            </div>
+            <div class="grid grid-cols-4 gap-2">
+                <input 
+                type="button"
+                value="AC"
+                onclick="document.getElementById('display').value ='' "
+                class="inputClass text-purple-950">
+
+                <input 
+                type="button"
+                value="DE"
+                onclick="document.getElementById('display').value =
+                document.getElementById('display').value.toString().slice(0,-1)"
+                class="inputClass text-purple-950">
+                
+                <input 
+                type="button"
+                value="."
+                onclick="document.getElementById('display').value += '.'"
+                class="inputClass text-purple-950">
+
+                <input 
+                type="button"
+                value="/"
+                onclick="document.getElementById('display').value += '/'"
+                class="inputClass text-purple-950">
+
+                <input 
+                type="button"
+                value="7"
+                onclick="document.getElementById('display').value += '7' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="8"
+                onclick="document.getElementById('display').value += '8' "
+                class="inputClass">
+                <input 
+                type="button"
+                value="9"
+                onclick="document.getElementById('display').value += '9' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="x"
+                onclick="document.getElementById('display').value += '*' "
+                class="inputClass text-purple-950">
+
+                <input 
+                type="button"
+                value="4"
+                onclick="document.getElementById('display').value += '4' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="5"
+                onclick="document.getElementById('display').value += '5' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="6"
+                onclick="document.getElementById('display').value += '6' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="-"
+                onclick="document.getElementById('display').value += '-' "
+                class="inputClass text-purple-950">
+
+                <input 
+                type="button"
+                value="1"
+                onclick="document.getElementById('display').value += '1' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="2"
+                onclick="document.getElementById('display').value += '2' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="3"
+                onclick="document.getElementById('display').value += '3' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="+"
+                onclick="document.getElementById('display').value += '+' "
+                class="inputClass text-purple-950">
+
+                <input 
+                type="button"
+                value="00"
+                onclick="document.getElementById('display').value += '00' "
+                class="inputClass">
+
+                <input 
+                type="button"
+                value="0"
+                onclick="document.getElementById('display').value += '0' "
+                class="inputClass">
+                <input 
+                type="button"
+                value="="
+                onclick="document.getElementById('display').value = eval(document.getElementById('display').value) "
+                class="inputClass col-span-2 text-purple-950">
+                
+            </div>
+        </div>
+   </div>
+
+   
+    <script src="index.js" ></script>
+</body>
+</html>

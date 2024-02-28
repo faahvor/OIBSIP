@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.inputClass{
+    @apply bg-purple-300 py-4 px-6 font-bold text-lg rounded-lg shadow-inner shadow-purple-950 transition hover:translate-x-0.5 duration-500;
+}
