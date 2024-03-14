@@ -2,18 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.div-items{
+    @apply  grid grid-cols-[100px,1fr,100px]  transition-all  duration-[1s];
+}
+.completeBtn{
+    @apply  text-pink-600 cursor-pointer mb-[-14px];
+}
+.deleteBtn{
+    @apply  text-pink-600 cursor-pointer mb-[-14px];
+}
 .icon{
-    @apply  text-pink-600 cursor-pointer;
+    @apply text-[24px];
 }
-.button{
-    @apply bg-pink-600 py-1 px-2 rounded-2xl ml-6   text-white ;
+.icons{
+    pointer-events:none;
 }
-.input{
-    @apply border;
+.completed{
+    @apply line-through text-gray-600 opacity-[0.5];
 }
-.inputStyle{
-    @apply px-[80px] py-2 mb-4 bg-pink-500 rounded-xl outline-none;
+.down{
+    transform:translateY(8rem) rotateZ-(90deg);
+    opacity:0;
 }
-.button{
-    @apply bg-pink-500 py-2 px-6 rounded-full;
+.list_items{
+    @apply  ml-2 mt-4 text-lg text-pink-400;
+}
+
+.checked{
+    background-image: url('../image/check.png');
+    background-repeat:no-repeat;
+    background-size:contain;
+    width:24px;    
+}
+@media (min-width: 640px)
+ .button{
+    padding-top: 0;
+    padding-bottom: 0;
 }

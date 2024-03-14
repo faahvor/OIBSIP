@@ -1,123 +1,212 @@
-let inMessage = document.querySelector("#inbox");
-let divCreated = false;
-let input;
-let saveButton = document.querySelector("#button")
-let inputBox = document.querySelector("#input"); 
-// let upComing = document.querySelector("#upcoming");
-let selectedDate = new Date(document.querySelector("#dateInput").value);
-let tomorrowDate = new Date();
-let upComingDate = new Date();
+let todoInput = document.getElementById("input-box");
+let todoList = document.getElementById("task-ul");
+let dropList = document.getElementById("dropList");
+const button = document.getElementById("button")
+const checkOptions = document.querySelector(".check");
 
 
-function inbox() {
-    inMessage.addEventListener("click", list);
-}
-function list() {
-    if (!divCreated) {
-        inMessage.style.color = "pink";
+document.addEventListener('DOMContentLoaded', getTodos())
+button.addEventListener("click", buttonClick);
+todoList.addEventListener("click", deleteClick);
+checkOptions.addEventListener("click", checkTodo);
 
-        let add = document.createElement("p");
-        // let button = document.createElement("button");
+    function buttonClick(event){
+        event.preventDefault();
+        const todoDiv = document.createElement("div");
+        todoDiv.classList.add("div-items");
+          // check button
+          const checkButton = document.createElement("button");
+          checkButton.innerHTML = `<ion-icon class="icons icon"  name="ellipse-outline"></ion-icon>`;
+          checkButton.classList.add("completeBtn");
+          todoDiv.appendChild(checkButton);
+        // create li
+        const li = document.createElement("li");
+        li.classList.add("list_items");
+        li.innerText = todoInput.value.trim();
+        todoDiv.appendChild(li);
+        if(todoInput.value === ""){
+            return;
+        }
 
-        // button.innerHTML = `<span class="button">Done</span>`;
-        add.innerHTML = `<span class=" button font-bold cursor-pointer ">Add Task</span>`;
+        
 
-        let content = document.getElementById("dropList");
-        content.appendChild(add);
-        // content.appendChild(button);
+        // add local storage
+        saveTodos(todoInput.value);
+        // delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.innerHTML = `<ion-icon class="icons icon" name="trash-outline"></ion-icon>`;
+        deleteButton.classList.add("deleteBtn")
+        todoDiv.appendChild(deleteButton);
 
-        add.addEventListener("click", handleClick);
-        // button.addEventListener("click", buttonClick);
+        todoList.appendChild(todoDiv);
+      
+        
+        // clear to do input
+        todoInput.value = '';
 
-        divCreated = true;
+        
     }
-}
 
-function handleClick() {
-    if (this){
-        let cover = document.querySelector("#task");
-        cover.style.display = "block";
-        this.remove();
-    }else{
-        this.add();
+    function deleteClick(e){
+       const item = e.target;
+
+        // delete to do
+       if(item.classList[0] === "deleteBtn"){
+        const todo = item.parentElement
+        todo.classList.add("down");
+        removeTodos(todo);
+        todo.addEventListener("transitionend", function(){
+            todo.remove();
+        })
+       }
+    //    check mark
+       if(item.classList[0] === "completeBtn"){
+        const todo = item.parentElement;
+        todo.classList.toggle("completed");
+        
+
+       }
     }
-  
-}
+    
 
-
-
-function save() {
-    if (inputBox.value.trim() !== '') {
-        let inputText = inputBox.value.trim();
-        let inputDate = new Date(document.querySelector("#dateInput").value);
-
-        // Calculate the difference in days between the selected date and tomorrow
-        let timeDiff = inputDate.getTime() - tomorrowDate.getTime();
-        let dayDiff = timeDiff / (1000 * 3600 * 24);
-
-        // If the difference is less than 1 day, move to tomorrow container
-        if (dayDiff < 1) {
-            // Code to move the task to tomorrow container
-            let tomorrowContainer = document.querySelector("#tomorrow");
-            moveTaskToContainer(inputText, inputDate, tomorrowContainer);
-        } else {
-            // Code to move the task to upcoming container
-            let upcomingContainer = document.querySelector("#upcoming");
-            moveTaskToContainer(inputText, inputDate, upcomingContainer);
+    function checkTodo(e) {
+        const todos = todoList.children;
+        for (let i = 0; i < todos.length; i++) {
+            const pick = todos[i];
+            switch (e.target.value) {
+                case "Tasks":
+                    pick.style.display = "grid";
+                    break;
+                case "completed":
+                    if (pick.classList.contains("completed")) {
+                        pick.style.display = "grid";
+                    } else {
+                        pick.style.display = "none";
+                    }
+                    break;
+                case "Uncompleted":
+                    if (!pick.classList.contains("completed")) {
+                        pick.style.display = "grid";
+                    } else {
+                        pick.style.display = "none";
+                    }
+                    
+            
+            }
         }
     }
-}
+    
+    function saveTodos(todo){
+        let todos;
+        if(localStorage.getItem("todos") === null){
+            todos = [];
+        }else{
+            todos = JSON.parse(localStorage.getItem("todos"));
+        }
 
-function moveTaskToContainer(taskText, taskDate, container) {
-    // Create elements for the task
-    let taskElement = document.createElement("div");
-    taskElement.classList.add("task");
-    taskElement.innerHTML = taskText;
+        todos.push(todo);
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }
 
-    // Append the task to the container
-    container.appendChild(taskElement);
-}
+    function getTodos(){
+        console.log("hello");
+        let todos;
+        if(localStorage.getItem("todos") === null){
+            todos = [];
+        }else{
+            todos = JSON.parse(localStorage.getItem("todos"));
+        }
+        todos.forEach(function(todo){
+            const todoDiv = document.createElement("div");
+            todoDiv.classList.add("div-items");
+              // check button
+              const checkButton = document.createElement("button");
+              checkButton.innerHTML = `<ion-icon class="icons icon"  name="ellipse-outline"></ion-icon>`;
+              checkButton.classList.add("completeBtn");
+              todoDiv.appendChild(checkButton);
+            // create li
+            const li = document.createElement("li");
+            li.classList.add("list_items");
+            li.innerText = todo;           
+            todoDiv.appendChild(li);
+            // delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.innerHTML = `<ion-icon class="icons icon" name="trash-outline"></ion-icon>`;
+            deleteButton.classList.add("deleteBtn")
+            todoDiv.appendChild(deleteButton);
+    
+            todoList.appendChild(todoDiv);
+          
+        });
+    }
+    function removeTodos(todo){
+        let todos;
+        if(localStorage.getItem("todos") === null){
+            todos = [];
+        }else{
+            todos = JSON.parse(localStorage.getItem("todos"));
+        }
+        const todoIndex = todo.children[0].innerText;
+        todos.splice(todos.indexOf(todoIndex), 1);
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }
 
-// function saveItems(){
-//     nextDay.addEventListener("click", save);
-//  }
 
- 
-// function save(){
-//     if(inputBox!== ''){
-//         let inputText = inputBox.value.trim();
-//     }
+
+
+
+
+
+
    
-//     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-//      upComingDate.setDate(upComingDate.getDate() + 2);
-
-//      let selectedYear = selectedDate.getFullYear();
-//      let selectedMonth = selectedDate.getMonth();
-//      let selectedDay = selectedDate.getDate();
-
-//      let tomorrowYear = tomorrowDate.getFullYear();
-//      let tomorrowMonth = tomorrowDate.getMonth();
-//      let tomorrowDay = tomorrowDate.getDate();
-
-//      let upComingYear = upComingDate.getFullYear();
-//      let upComingMonth = upComingDate.getMonth();
-//      let upComingDay = upComingDate.getDate();
-
-//      if (selectedYear === tomorrowYear &&
-//         selectedMonth === tomorrowMonth &&
-//         selectedDay === tomorrowDay) {
        
-//         }else if(selectedYear === upComingYear &&
-//                 selectedMonth === upComingMonth && 
-//                 selectedDay === upComingDay) {
-//                     return upComingDate;
-//                 }
-// }
+ // keypress function
+    
+ document.addEventListener("keydown", function(event) {
 
+            if (event.key === "Enter") {
+                 event.preventDefault();
+                const todoDiv = document.createElement("div");
+                todoDiv.classList.add("div-items");
+                
+                // check button
+                const checkButton = document.createElement("button");
+                checkButton.innerHTML = `<ion-icon class="icons icon"  name="ellipse-outline"></ion-icon>`;
+                checkButton.classList.add("completeBtn");
+                todoDiv.appendChild(checkButton);
+                
+                // create li
+                const li = document.createElement("li");
+                li.classList.add("list_items");
+                li.innerText = todoInput.value.trim();
+                todoDiv.appendChild(li);
 
+                if(todoInput.value === ""){
+                    return;
+                }
+        
+                // add local storage
+                saveTodos(todoInput.value);
+        
+                // delete button
+                const deleteButton = document.createElement("button");
+                deleteButton.innerHTML = `<ion-icon class="icons icon" name="trash-outline"></ion-icon>`;
+                deleteButton.classList.add("deleteBtn")
+                todoDiv.appendChild(deleteButton);
+        
+                todoList.appendChild(todoDiv);
+        
+                // clear to do input
+                todoInput.value = '';
+            }
+        })
+        
+       
+        
+      
+    // function space(){
+    //     if()
+    // }
 
-
-inbox();
-saveItems();
-
+    
 

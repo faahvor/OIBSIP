@@ -617,6 +617,22 @@ video {
   height: 100%;
 }
 
+.h-\[400px\] {
+  height: 400px;
+}
+
+.h-\[450px\] {
+  height: 450px;
+}
+
+.h-\[440px\] {
+  height: 440px;
+}
+
+.h-\[420px\] {
+  height: 420px;
+}
+
 .w-full {
   width: 100%;
 }
@@ -835,6 +851,12 @@ video {
   }
 
   .md\:flex-row {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:flex-row {
     flex-direction: row;
   }
 }
